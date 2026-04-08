@@ -1,0 +1,16 @@
+{
+  "name": "order-service-consumer",
+  "version": "1.0.0",
+  "description": "Consumer (Order Service) — generates Pact contracts against User Service",
+  "scripts": {
+    "test": "jest --testPathPattern=pact",
+    "publish:pacts": "node src/publishPacts.js"
+  },
+  "dependencies": {
+    "axios": "^1.7.2"
+  },
+  "devDependencies": {
+    "@pact-foundation/pact": "^12.5.0",
+    "jest": "^29.7.0"
+  }
+}

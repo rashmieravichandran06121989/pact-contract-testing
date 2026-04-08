@@ -1,0 +1,19 @@
+node_modules/
+consumer/node_modules/
+provider/node_modules/
+
+# Pact output — commit these if you want "local file" mode in CI
+# Comment this out to track pact files in git
+pacts/
+
+# Jest coverage
+coverage/
+*/coverage/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env files — never commit secrets
+.env
+.env.*
