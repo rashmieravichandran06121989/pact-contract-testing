@@ -1,5 +1,10 @@
 # Pact Contract Testing — Reference Implementation
 
+As a SDET   — I own the full quality strategy for a 6-person development team. Integration failures between microservices were slipping through too late in our pipeline, so I introduced consumer-driven contract testing as the fix.
+This repo is the production-ready reference implementation I built to prove the pattern: consumer tests, provider verification, Pact Broker, and can-i-deploy gates in CI. The kind of quality architecture decision I make in my day-to-day work
+
+Consumer-driven contract testing with Pact.io — Order Service consumer, User Service provider, Pact Broker, and CI/CD with can-i-deploy gates
+
 Consumer-driven contract testing with [Pact](https://docs.pact.io), covering:
 
 - **Consumer** — Order Service (generates contracts)
