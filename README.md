@@ -15,6 +15,7 @@ This repo is the production-ready reference implementation I built to prove the 
 
 ```mermaid
 flowchart TD
+````
     subgraph consumer_ci["Consumer CI — Order Service"]
         CT[Consumer Pact Tests]:::step
         GP[Generate Pact File]:::step
@@ -57,12 +58,13 @@ flowchart TD
 
 ```mermaid
 sequenceDiagram
-    participant Dev as Developer
+    participant Dev as 
+````
     participant CT as Consumer Test (Jest)
     participant MS as Pact Mock Server
     participant PF as pacts/ (JSON file)
     participant PB as Pact Broker
-
+````
     Dev->>CT: npm test (consumer)
     CT->>MS: Register expected interactions
     MS-->>CT: Acknowledge
@@ -108,6 +110,7 @@ sequenceDiagram
 
 ```mermaid
 flowchart LR
+````
     subgraph consumer_pipeline["Consumer Pipeline"]
         direction TB
         c1[npm ci]:::ci --> c2[Consumer Pact Tests]:::ci
