@@ -157,7 +157,7 @@ npm test
 
 4 tests, all interactions verified against the Pact mock server. Contract written to `pacts/OrderService-UserService.json`.
 
-![consumer test output](docs/consumer-test-output.png)
+![consumer test output](docs/Consumer-test-output.png)
 
 ### 3. Verify provider against the contract
 
