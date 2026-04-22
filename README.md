@@ -1,7 +1,7 @@
 # Pact Contract Testing — Reference Implementation
 
-![Consumer Contract](https://github.com/rashmieravichandran06121989/pact_contract-testing/actions/workflows/consumer-contract.yml/badge.svg)
-![Provider Verification](https://github.com/rashmieravichandran06121989/pact_contract-testing/actions/workflows/provider-verification.yml/badge.svg)
+![Consumer Contract](https://github.com/rashmieravichandran06121989/pact-contract-testing/actions/workflows/consumer-contract.yml/badge.svg)
+![Provider Verification](https://github.com/rashmieravichandran06121989/pact-contract-testing/actions/workflows/provider-verification.yml/badge.svg)
 
 As a SDET — I own the full quality strategy for a 6-person development team. Integration failures between microservices were slipping through too late in our pipeline, so I introduced consumer-driven contract testing as the fix.
 
