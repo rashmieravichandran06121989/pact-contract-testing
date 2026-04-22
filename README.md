@@ -8,6 +8,9 @@ As a SDET — I own the full quality strategy for a 6-person development team. I
 This repo is the production-ready reference implementation I built to prove the pattern: consumer tests, provider verification, Pact Broker, and can-i-deploy gates in CI.
 
 ---
+## Scope
+
+This repo covers consumer-driven contract testing — the Pact-specific work from my API & Contract Testing sprint. REST API negative testing and schema validation (Zod/Ajv) and GraphQL testing with Playwright were covered in that same sprint but live in separate projects.
 
 ## Architecture
 
