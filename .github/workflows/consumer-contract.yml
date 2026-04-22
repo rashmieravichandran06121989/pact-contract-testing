@@ -45,7 +45,7 @@ jobs:
           path: pacts/
           retention-days: 7
 
- publish-pacts:
+  publish-pacts:
     name: Publish Pacts to Broker
     runs-on: ubuntu-latest
     needs: consumer-pact-tests
