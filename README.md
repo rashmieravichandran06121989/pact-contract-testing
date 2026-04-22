@@ -57,12 +57,12 @@ flowchart TD
 
 ```mermaid
 sequenceDiagram
-    participant Dev as 
+    participant Dev as Developer
     participant CT as Consumer Test (Jest)
     participant MS as Pact Mock Server
     participant PF as pacts/ (JSON file)
     participant PB as Pact Broker
-````
+
     Dev->>CT: npm test (consumer)
     CT->>MS: Register expected interactions
     MS-->>CT: Acknowledge
