@@ -8,7 +8,10 @@
  *   GITHUB_SHA            — commit SHA used as consumer version
  *   GITHUB_REF_NAME       — branch name used for branch tagging
  */
-const { Publisher } = require('@pact-foundation/pact');
+// Publisher moved out of the top-level package in pact-js v12 —
+// it now lives in @pact-foundation/pact-core. See:
+// https://github.com/pact-foundation/pact-js/releases/tag/v12.0.0
+const { Publisher } = require('@pact-foundation/pact-core');
 const path = require('path');
 
 const {
