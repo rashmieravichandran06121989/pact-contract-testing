@@ -18,26 +18,40 @@ const {
   GITHUB_REF_NAME,
 } = process.env;
 
-if (!PACT_BROKER_BASE_URL || !PACT_BROKER_TOKEN) {
-  console.error(
-    'ERROR: PACT_BROKER_BASE_URL and PACT_BROKER_TOKEN must be set.'
-  );
+if (!PACT_BROKER_BASE_URL) {
+  console.error('ERROR: PACT_BROKER_BASE_URL must be set.');
   process.exit(1);
 }
+
+// Hosted brokers (PactFlow) require a token; self-hosted brokers with
+// PACT_BROKER_ALLOW_PUBLIC_READ=true may accept unauthenticated writes.
+// Warn rather than fail so local flows still work.
+if (!PACT_BROKER_TOKEN) {
+  console.warn(
+    '[publishPacts] PACT_BROKER_TOKEN not set — assuming an unauthenticated broker.'
+  );
+}
+
+const branch  = GITHUB_REF_NAME || 'local';
+const version = GITHUB_SHA      || `local-${Date.now()}`;
 
 const publisher = new Publisher({
   pactBroker: PACT_BROKER_BASE_URL,
   pactBrokerToken: PACT_BROKER_TOKEN,
   pactFilesOrDirs: [path.resolve(__dirname, '../../pacts')],
-  consumerVersion: GITHUB_SHA || require('../package.json').version,
-  branch: GITHUB_REF_NAME || 'local',
-  tags: [GITHUB_REF_NAME || 'local'],
+  consumerVersion: version,
+  branch,
+  // Only tag 'main' so feature branches don't clutter the tag namespace —
+  // branch selectors are the idiomatic discriminator in Pact v12+.
+  tags: branch === 'main' ? ['main'] : [],
 });
 
 publisher
-  .publishPacts()
-  .then(() => {
-    console.log('Pacts published successfully to', PACT_BROKER_BASE_URL);
+  .publish()
+  .then((urls) => {
+    console.log(
+      JSON.stringify({ published: urls, broker: PACT_BROKER_BASE_URL, version, branch }, null, 2)
+    );
   })
   .catch((err) => {
     console.error('Failed to publish pacts:', err.message);

@@ -1,7 +1,6 @@
 # pact-contract-testing
 
-![Consumer Contract](https://github.com/rashmieravichandran06121989/pact-contract-testing/actions/workflows/consumer-contract.yml/badge.svg)
-![Provider Verification](https://github.com/rashmieravichandran06121989/pact-contract-testing/actions/workflows/provider-verification.yml/badge.svg)
+![Contract Tests](https://github.com/rashmieravichandran06121989/pact-contract-testing/actions/workflows/contract-tests.yml/badge.svg)
 
 As a SDET — I own the full quality strategy for a 6-person development team. Integration failures between microservices were slipping through too late in our pipeline, so I introduced consumer-driven contract testing as the fix.
 
@@ -268,8 +267,7 @@ pact-contract-testing/
 │
 ├── .github/
 │   └── workflows/
-│       ├── consumer-contract.yml     # test → publish → can-i-deploy
-│       └── provider-verification.yml # verify → can-i-deploy → record
+│       └── contract-tests.yml        # consumer → publish → provider verify → can-i-deploy → record
 │
 ├── docs/
 │   ├── consumer-test-output.png

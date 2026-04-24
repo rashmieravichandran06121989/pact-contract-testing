@@ -1,33 +1,51 @@
 /**
  * UserClient — HTTP client for the Order Service to call the User Service.
- * The base URL is read from USER_SERVICE_URL so that pact tests can point
- * it at the mock server without any code changes.
+ *
+ * Base URL is read from USER_SERVICE_URL on every call so the pact mock
+ * server can be swapped in at test time without rebuilding the client.
  */
 const axios = require('axios');
 
-const baseURL = () => process.env.USER_SERVICE_URL || 'http://localhost:3001';
+const DEFAULT_TIMEOUT_MS = 5000;
+const DEFAULT_BASE_URL   = 'http://localhost:3001';
+
+const baseUrl = () => process.env.USER_SERVICE_URL || DEFAULT_BASE_URL;
+
+const jsonHeaders = (extra = {}) => ({
+  Accept: 'application/json',
+  ...extra,
+});
+
+const requestConfig = (extraHeaders) => ({
+  timeout: DEFAULT_TIMEOUT_MS,
+  headers: jsonHeaders(extraHeaders),
+});
 
 const getUser = async (userId) => {
-  const { data } = await axios.get(`${baseURL()}/users/${userId}`, {
-    headers: { Accept: 'application/json' },
-  });
+  if (!Number.isInteger(userId) || userId <= 0) {
+    throw new TypeError(
+      `getUser: userId must be a positive integer, got ${String(userId)}`
+    );
+  }
+  const { data } = await axios.get(`${baseUrl()}/users/${userId}`, requestConfig());
   return data;
 };
 
-const createUser = async (userData) => {
-  const { data } = await axios.post(`${baseURL()}/users`, userData, {
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    },
-  });
+const createUser = async (payload) => {
+  const missing = ['name', 'email', 'role'].filter((k) => !payload?.[k]);
+  if (missing.length) {
+    throw new TypeError(`createUser: missing required fields: ${missing.join(', ')}`);
+  }
+  const { data } = await axios.post(
+    `${baseUrl()}/users`,
+    payload,
+    requestConfig({ 'Content-Type': 'application/json' })
+  );
   return data;
 };
 
 const listUsers = async () => {
-  const { data } = await axios.get(`${baseURL()}/users`, {
-    headers: { Accept: 'application/json' },
-  });
+  const { data } = await axios.get(`${baseUrl()}/users`, requestConfig());
   return data;
 };
 

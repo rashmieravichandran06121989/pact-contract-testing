@@ -16,6 +16,10 @@ const { getUser, createUser, listUsers } = require('./userClient');
 
 const { like, eachLike, integer, string, regex } = MatchersV3;
 
+// Role is an enum in the provider — express the same contract here.
+const ROLE_REGEX = '^(admin|viewer|editor)$';
+const role = (example = 'admin') => regex(ROLE_REGEX, example);
+
 // ---------------------------------------------------------------------------
 // Pact provider mock — spins up a local HTTP server during tests
 // ---------------------------------------------------------------------------
@@ -46,17 +50,16 @@ describe('GET /users/:id', () => {
           id: integer(1),
           name: string('Alice'),
           email: regex('\\S+@\\S+\\.\\S+', 'alice@example.com'),
-          role: string('admin'),
+          role: role('admin'),
         }),
       })
       .executeTest(async (mockServer) => {
         process.env.USER_SERVICE_URL = mockServer.url;
         const user = await getUser(1);
 
-        expect(typeof user.id).toBe('number');
-        expect(typeof user.name).toBe('string');
+        expect(user.id).toEqual(expect.any(Number));
         expect(user.email).toMatch(/\S+@\S+\.\S+/);
-        expect(typeof user.role).toBe('string');
+        expect(user.role).toMatch(new RegExp(ROLE_REGEX));
       });
   });
 
@@ -102,8 +105,8 @@ describe('GET /users', () => {
         body: eachLike({
           id: integer(1),
           name: string('Alice'),
-          email: string('alice@example.com'),
-          role: string('admin'),
+          email: regex('\\S+@\\S+\\.\\S+', 'alice@example.com'),
+          role: role('admin'),
         }),
       })
       .executeTest(async (mockServer) => {
@@ -144,8 +147,8 @@ describe('POST /users', () => {
         body: like({
           id: integer(3),
           name: string('Carol'),
-          email: string('carol@example.com'),
-          role: string('editor'),
+          email: regex('\\S+@\\S+\\.\\S+', 'carol@example.com'),
+          role: role('editor'),
         }),
       })
       .executeTest(async (mockServer) => {
